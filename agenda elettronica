@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <string.h>
+/*typedef enum mesi  { gennaio=1, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre } ;
+struct date
+{
+    char nota_scritta[20];
+	int giorni;
+
+
+};
+typedef struct date Date;
+void inserimento(char nota_scritta[],Date anno_2023,char comando_inserito);
+void cancellazione(Date);
+void visualizazione(Date);*\
+\\ idea che non ho poi utilizzato per eccessiva complessità di tempo del codice
+int main() {
+    int anno,mesi,giorni;
+ int  ore;
+ int ore_vis;
+ char comando_inserito;
+ char nota_scritta[20];
+
+     printf("\t benvenuto in questa agenda eletronica selezionare uno dei comandi\n");
+     printf("\t premere i per inserire una nota\n");
+     printf("\t premere d per cancellare le note\n");
+     printf("\t premere v per visualizare le note esistenti\n");
+     printf("\t premere c per chiudere l'agenda\n");
+     do{
+     scanf_s("%c", &comando_inserito);
+     if (comando_inserito == 'i') {
+         printf("\t inserire l'anno\n");
+         scanf_s("%d", &anno);
+         printf("\t inserire il mese\n");
+         scanf_s("%d", &mesi);
+         printf("\t inserire il giorno\n");
+         scanf_s("%d", &giorni);
+         printf("\t inserire l'ora\n");
+         scanf_s("%d", &ore);
+         if (anno < 2000 || mesi > 12 || giorni>31||ore>24||anno>3000 ) {
+             printf("errore riscontrato\n");
+             break;
+         } else {
+             printf("\tinserire un annotazione\n");
+             scanf_s("%s",&nota_scritta);
+             printf("\tdata inserita:%d/%d/%d/%d:00\n", anno, mesi, giorni, ore);
+             printf("\t annotazione:%s\n",nota_scritta);
+
+         }
+     }
+      if(comando_inserito=='d'){
+         char nota_cancellata[50]="nota_cancellata";
+        char *cancellazione= strcpy(nota_scritta,nota_cancellata);
+         printf("%s",cancellazione);
+     }
+      if(comando_inserito=='v') {
+          printf("\tinserire ora appuntamento\n");
+          scanf_s("%d", &ore_vis);
+          char nota_da_visualizare[20];
+          char *visualizare = strcpy(nota_da_visualizare, nota_scritta);
+          if (visualizare == NULL||anno==NULL||mesi==NULL||giorni==NULL||ore==NULL) {
+              printf("\tniente da visualizare\n");
+              break;
+          } else if(ore_vis==ore){
+              printf("\tdata visualizzata:%d/%d/%d/%d:00\n", anno, mesi, giorni, ore);
+          printf("\t%s\n", visualizare);
+      }else{
+              printf("\tnessun appuntamento per quel ora\n");
+          }
+      }
+
+ }while(comando_inserito!='c');
+    printf("chiusura agenda");
+     
+}
