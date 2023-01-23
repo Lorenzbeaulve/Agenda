@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include<stdbool.h>
+int sottrazione_array( int a[], int n);
+void swap( int a[]);
+int main() {
+	bool unico;
+	srand(time(NULL));
+	int n = 5;
+
+	int b = 1 + rand() % 15;
+	int c= 1 + rand() % 15;
+	int d= 1 + rand() % 15;
+	int e= 1 + rand() % 15;
+	int f= 1 + rand() % 15;
+	int m = b - c;
+	int g = c - d;
+	int h = d - e;
+	int l = e - f;
+	int o = m - g;
+	int p = g - h;
+	int k = h - l;
+	int j = o - p;
+	int t = p - k;
+	 int a[5] ={b,c,d,e,f};
+	int nc;
+	int nb;
+	do {
+		unico = true;
+		for (nc = 0; nc < n; nc++) {
+			for (nc = 0; nc < n; nc++)
+				printf("|%d|", a[nc]);
+			printf("\n|%d|%d|%d|%d|", b-c,c-d,d-e,e-f);
+			printf("\n|%d|%d|%d|",m-g , g - h, h - l);
+			printf("\n|%d|%d|", o - p, p - k);
+			printf("\n|%d|", j - t);
+			break;
+		}
+	} while (unico==false);
+	printf("\t\tsottrazione elementi array di grandezza %d: è uguale a=%lf\n", n,fabs(sottrazione_array(a, n)));
+	printf("\t\t\t**************");
+}
+void swap(int a[])
+{
+	int j;
+	int i;
+	int temp;
+	for (i = 0; i < 5; i++) {
+		for (j = 1; j < i; j++) {
+			if (a[i] < a[j]) {
+				temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+			}
+			else if (a[i] > a[j] || a[i] == a[j]) {
+				i++;
+				j++;
+			}
+			
+		}
+	}
+}
+
+
+int sottrazione_array( int a[], int n)
+{
+	if (n == 1)
+	{
+		return a[0];
+	}
+	else
+	{
+		return a[n - 1], - sottrazione_array(a, n - 1);
+	}
+}
+
