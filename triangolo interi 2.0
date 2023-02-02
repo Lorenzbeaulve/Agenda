@@ -1,0 +1,151 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+/* Progetto TRIANGOLI DI INTERI.c
+ Nome:Lorenzo Maria/Cognome:Sarica
+ Matricola:0124002722
+ Si vuole sviluppare un programma per verificare se da un array di 5 interi generati a
+caso è possibile costruire un triangolo. Si suppone di avere
+15 numeri consecutivi da 1 a 15. Il gioco richiede che ogni carta sia la differenza tra le
+due carte che le stanno immediatamente sotto, a sinistra e a destra. 
+*/
+int sottrazione_array( int a[], int n);
+void swap( int *a,int *b);
+int main() {
+	// inizializzazione delle variabili randomiche e inizializiamo con un nome ogni cella del triangolo
+	srand(time(NULL));
+	int n = 5;
+	int rip;
+	int b = 1 + rand() % 15;
+	int c = 1 + rand() % 15;
+	int d = 1 + rand() % 15;
+	int e = 1 + rand() % 15;
+	int f = 1 + rand() % 15;
+	int m = b - c;
+	int g = c - d;
+	int h = d - e;
+	int l = e - f;
+	int o = fabs(m) - fabs(g);
+	int p = fabs(g) - fabs(h);
+	int k = fabs(h) - fabs(l);
+	int j = fabs(o) - fabs(p);
+	int t = fabs(p) - fabs(k);
+	int v = fabs(j) - fabs(t);
+	int a[5] = { b,c,d,e,f };
+	int i;
+	// for per evitare la ripetizione dei numeri al interno del primo array
+	for (rip = 0; rip < n-1; rip++) {
+		for (int rip_2 = rip + 1; rip_2 < n; rip_2++) {
+			if (a[rip] == a[rip_2]) {
+				a[rip] = 1;
+				a[rip_2] = 2;
+			}
+		}
+
+	}printf("triangolo non ordinato\n");
+	for (i = 0; i < n; i++) {
+		printf("|%d|", a[i]);
+	} // utilizzo delle funzioni fabs prese dalla librerria math.h per eliminare i numeri negativi dandoli un valore assoluto
+	printf("\n|%lf|%lf|%lf|%lf|", fabsl(m), fabsl(g), fabsl(h), fabsl(l));
+	printf("\n|%lf|%lf|%lf|", fabsl(o),fabsl(p) , fabsl(k));
+	printf("\n|%lf|%lf|", fabsl(j), fabsl(t));
+	printf("\n|%lf|", fabsl(v));
+
+	// Qui si può vedere il risultato non influenzato dagli scambi
+	if (sottrazione_array(a, n) < 0) {
+		printf("\t\tsottrazione elementi array  con valore assoluto non modificando la posizione degli  interi %d: è uguale a=%lf\n", n, fabs(sottrazione_array(a, n)));
+		printf("\t\t\t**************");
+	}
+	else {
+		printf("\t\t risultato array sottratto non modificado la posizione degli interi =%d\n", sottrazione_array(a, n));
+		printf("\t\t\t**************");
+	}printf("\narray ordinati in modo decrescente se si vuole evitare i numeri negativi");
+	printf("\n|%d|%d|%d|%d|%d|", a[0], a[1], a[2], a[3], a[4]);
+	printf("\n|%d|%d|%d|%d|\n", a[0] - a[1], a[1] - a[2], a[2] - a[3], a[3] - a[4]);
+	/* dopo di che vediamo un altro metodo col quale possiamo stampare e operare su tutti gli array successivi del triangolo riga per riga
+	 apparentemente sembra avere una complessita costante ma l'array dal quale parte questa operazione viene elaborato da una sottrazione per ricorsione incrementale
+	 che già di se ha una grandezza lineare con altri due cicli for si può arrivare al peggio a un O(n^3)*/
+	int rig_2_1 = a[0] - a[1];
+	int rig_2_2 = a[1] - a[2];
+	int rig_2_3 = a[2] - a[3];
+	int rig_2_4 = a[3] - a[4];
+	int terz_rig[4] = {rig_2_1,rig_2_2, rig_2_3, rig_2_4  };
+	for(i=0;i<3;i++) {
+		if (terz_rig[0] < terz_rig[1]) {
+			swap(&terz_rig[0], &terz_rig[1]);
+		}
+		if (terz_rig[1] < terz_rig[2]) {
+			swap(&terz_rig[1], &terz_rig[2]);
+		}
+		if (terz_rig[2] < terz_rig[3]) {
+			swap(&terz_rig[2], &terz_rig[3]);
+		} 
+	}
+	printf("|%d|%d|%d|\n", terz_rig[0] - terz_rig[1], terz_rig[1] - terz_rig[2],terz_rig[2]-terz_rig[3]);
+	int rig_3_1 = terz_rig[0] - terz_rig[1];
+	int rig_3_2 = terz_rig[1] - terz_rig[2];
+	int rig_3_3 = terz_rig[2] - terz_rig[3];
+	int quarta_rig[3] = { rig_3_1,rig_3_2,rig_3_3 };
+	for (i = 0; i < 2; i++) {
+		if (quarta_rig[0] < quarta_rig[1]) {
+			swap(&quarta_rig[0], &quarta_rig[1]);
+		}
+		if (quarta_rig[1] < quarta_rig[2]) {
+			swap(&quarta_rig[1], &quarta_rig[2]);
+		}
+	}
+	printf("|%d|%d|\n", quarta_rig[0]-quarta_rig[1], quarta_rig[1]-quarta_rig[2]);
+	int rig_4_1 = quarta_rig[0] - quarta_rig[1];
+	int rig_4_2 = quarta_rig[1] - quarta_rig[2];
+	int ultima_rig = rig_4_1 - rig_4_2;
+	if (rig_4_1 < rig_4_2) {
+		swap(&rig_4_1, &rig_4_2);
+	}
+	printf("|%d|", rig_4_1 - rig_4_2);
+}
+// funzione per lo scambio dei valori all'interno del array
+void swap(int* a, int* b) {
+	int temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+ 
+// funzione per la sottrazione elementare con chiamata allo scambio
+int sottrazione_array( int a[], int n)
+{
+	
+		if (n == 1)//caso banale
+		{
+			return a[0];
+		}
+		else if (a[0] < a[1]) {
+			swap(&a[0], &a[1]);
+			return a[n-1] - sottrazione_array(a, n - 1);
+
+		}
+		 if (a[1] < a[2]) {
+			swap(&a[1], &a[2]);
+			return a[n - 1] - sottrazione_array(a, n - 1);
+		}
+		 if (a[2] < a[3]) {
+			swap(&a[2], &a[3]);
+			return a[n - 1] - sottrazione_array(a, n - 1);
+		}
+		 if (a[3] < a[4]) {
+			swap(&a[3], &a[4]);
+			return a[n - 1] - sottrazione_array(a, n - 1);
+		}
+		 else
+		 { // caso di default
+			 return a[n - 1] - sottrazione_array(a, n - 1);
+		 }
+		 
+
+	
+}
+/* Questi sono i metodi che ho utilizzato per creare questo triangolo di interi il primo ha un costo O(n) per evitare le ripetizioni e un O(n^2) per stampare l'array in cui pero
+non considerando il resto la sua grandezza sarebbe una grandezza dell' O(1) per via dei confronti per lo più costanti l'altro richiede al peggio ma decisamente il più delle situazioni un O(n^3)*/
+
